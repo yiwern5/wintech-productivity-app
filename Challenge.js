@@ -36,20 +36,6 @@ export default class Challenge extends Component {
                 
                 <TouchableOpacity>
                     <Animatable.View
-                    animation = 'fadeInLeft'
-                    duration = {1500}
-                    style= {styles.referenceList}
-                    >
-                        <referenceList
-                            image={require("../pictures/calendar.png")}
-                            title="Schedule"
-                            subtitle="Master your day, conquer your goals"
-                        />
-                    </Animatable.View>
-                </TouchableOpacity>
-                
-                <TouchableOpacity>
-                    <Animatable.View
                     animation = 'fadeInRight'
                     duration = {1500}
                     style= {styles.referenceList}
@@ -90,20 +76,6 @@ export default class Challenge extends Component {
                     </Animatable.View>
                 </TouchableOpacity>
                 
-                
-                <TouchableOpacity>
-                    <Animatable.View
-                    animation = 'fadeInLeft'
-                    duration = {1500}
-                    style= {styles.referenceList}
-                    >
-                        <referenceList
-                            image={require("../pictures/daily-tasks.png")}
-                            title="Habit Tracker"
-                            subtitle="Consistency is key"
-                        />
-                    </Animatable.View>
-                </TouchableOpacity>
             </ScrollView>
         </View>
         );      
