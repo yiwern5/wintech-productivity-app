@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import * as Animatable from "react-native-animatable";
 import Constants from "expo-constants";
 import HorizontalList from './components/HorizontalList'
