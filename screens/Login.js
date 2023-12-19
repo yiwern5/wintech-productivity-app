@@ -3,7 +3,7 @@ import React from 'react'
 import * as WebBrowser from "expo-web-browser";
 import { AntDesign } from '@expo/vector-icons';
 import { useOAuth } from '@clerk/clerk-expo';
-import { useWarmUpBrowser } from '../../hooks/useWarmUpBrowser';
+import { useWarmUpBrowser } from '../hooks/useWarmUpBrowser'
  
 WebBrowser.maybeCompleteAuthSession();
 
