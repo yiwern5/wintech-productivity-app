@@ -19,7 +19,7 @@ export default class Challenge extends Component {
                 </View>
                 <View style = {styles.horizontalList}>
                     <ScrollView 
-                    horizontal = {True}
+                    horizontal = {true}
                     contentContainerStyle = {{width: "200%"}}
                     showsHorizontalScrollIndicator={false}
                     >
