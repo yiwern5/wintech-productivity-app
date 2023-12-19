@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from '@react-navigation/native';
 import Home from "./screens/Home";
 import Challenge from "./screens/Challenge";
+import { AntDesign } from '@expo/vector-icons'
 
 const Stack = createStackNavigator();
 

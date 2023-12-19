@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import * as Animatable from "react-native-animatable";
 import Constants from "expo-constants";
 import HorizontalList from '../components/HorizontalList'
-import referenceList from "../components/Reference";
+import ReferenceList from "../components/Reference";
 
 export default class Challenge extends Component {
     render(){
@@ -19,7 +19,7 @@ export default class Challenge extends Component {
                 </View>
                 <View style = {styles.horizontalList}>
                     <ScrollView 
-                    horizontal = {True}
+                    horizontal = {true}
                     contentContainerStyle = {{width: "200%"}}
                     showsHorizontalScrollIndicator={false}
                     >
@@ -40,7 +40,7 @@ export default class Challenge extends Component {
                     duration = {1500}
                     style= {styles.referenceList}
                     >
-                        <referenceList
+                        <ReferenceList
                             image={require("../pictures/notebook.png")}
                             title="Diary"
                             subtitle="Unlocking thoughts, one page at a time"
@@ -54,7 +54,7 @@ export default class Challenge extends Component {
                     duration = {1500}
                     style= {styles.referenceList}
                     >
-                        <referenceList
+                        <ReferenceList
                             image={require("../pictures/healthy-food.png")}
                             title="Diet"
                             subtitle="Eat well, feel well"
@@ -68,7 +68,7 @@ export default class Challenge extends Component {
                     duration = {1500}
                     style= {styles.referenceList}
                     >
-                        <referenceList
+                        <ReferenceList
                             image={require("../pictures/heart-rate.png")}
                             title="Workouts"
                             subtitle="Push through the sweat, embrace the burn"
