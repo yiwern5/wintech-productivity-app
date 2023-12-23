@@ -8,7 +8,7 @@ In the fast-paced modern world, individuals find it challenging to prioritise th
 
 ## Features
 
-- 📆 **Schedule**: Coordinate yourr schedule using the app in-built calendar. You would also have an option to sync your in-app calendar with your personal Google Calendar. 
+- 📆 **Schedule**: Coordinate your schedule using the app in-built calendar. You would also have an option to sync your in-app calendar with your personal Google Calendar. 
 - 📕 **Diary**: A personal space to express your thoughts, experiences and reflections for the day through text entries by writing, and visual entries by inserting pictures. 
 - 🥗 **Calories Tracking**: Take/upload photos of your meals to LifeSync to track calories via our meal recognition feature.
 - 🏋️ **Workout Plans**: View recommended workout plans or create your own workout plans!
