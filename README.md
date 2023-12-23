@@ -20,6 +20,7 @@ In the fast-paced modern world, individuals find it challenging to prioritise th
 <a href="https://reactnative.dev/" target="_blank" rel="noreferrer"> <img src="https://reactnative.dev/img/header_logo.svg" alt="reactnative" width="50" height="50"/> </a> 
 <a href="https://docs.expo.dev/" target="_blank" rel="noreferrer"> <img src="https://seeklogo.com/images/E/expo-go-app-logo-BBBE394CB8-seeklogo.com.png" alt="expo" width="50" height="50"/> </a>
 <a href="https://clerk.com/" target="_blank" rel="noreferrer"> <img src="https://cdn.sanity.io/images/o0o2tn5x/production/2399b991025c365aafaa6fca85d91deac801e654-1046x1046.png" alt="clerk" width="50" height="50"/> </a>
+<a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="firebase" width="40" height="40"/> </a>
 </p>
 
 - **React Native**:
@@ -31,6 +32,8 @@ Expo is a set of tools and services built around React Native that simplifies th
 - **Clerk**:
 Clerk is an authentication and user management service that simplifies the implementation of secure user authentication in web applications. It provides features like multi-factor authentication, passwordless login, and user role management. Clerk helps ensure that Lifesync's user data is handled securely and that the authentication process is seamless for users.
 
+- **Firebase**:
+Firebase is a powerful backend-as-a-service (BaaS) platform, seamlessly integrated for data storage and real-time updates.
 
 ## Getting Started
 1. Install Expo Go on your mobile device / Install Android Simulator on your local machine.
