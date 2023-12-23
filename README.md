@@ -35,13 +35,13 @@ Clerk is an authentication and user management service that simplifies the imple
 ## Getting Started
 1. Install Expo Go on your mobile device / Install Android Simulator on your local machine.
 2. Clone the repository to your local machine:
-`bash
-   git clone https://github.com/your-username/project-name.git`
+`bash$
+   git clone https://github.com/yiwern5/wintech-productivity-app`
 3. Install dependencies:
-`bash
+`bash$
     npm install`
 4. Run app:
-`bash
+`bash$
     npx expo start`
 5. View app by scanning the Expo Go QR code / on Android Simulator.
 
