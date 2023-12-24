@@ -1,14 +1,28 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import * as Progress from 'react-native-progress';
 import Colors from '../constants/Colors';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import MealCard from '../components/Diet/MealCard';
+import { db } from "../firebase";
+import { collection, getDocs, docs } from "firebase/firestore";
 
 export default function Diet() {
   const intake = 500;
   const totalIntake = 1500;
-  return (
+  const [mealList, setMealList] = useState([]);
+  useEffect(()=>{
+    getMealList();
+  },[])
+  const getMealList = async () => {
+    await getDocs(collection(db, "Meal"))
+            .then((querySnapshot)=>{               
+                const newData = querySnapshot.docs
+                    .map((doc) => ({...doc.data(), id:doc.id }));
+                setMealList(newData);                
+            })
+  };
+  return mealList&&(
     <View>
       <View style={styles.container}>
         <Text style={styles.title}>Diet</Text>
@@ -56,14 +70,15 @@ export default function Diet() {
 
       <Text style={styles.mealTitle}>Today's Meal</Text>
 
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: 5}}>
+      <FlatList 
+        data={mealList}
+        horizontal={true} showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{paddingHorizontal: 5}}
+        renderItem={({item})=>(
+          <MealCard item={item}/>
+        )}
 
-        <MealCard />
-        <MealCard />
-        <MealCard />
-
-      </ScrollView>
+      />
 
     </View>
   )
