@@ -17,9 +17,9 @@ export default function Diet() {
   const getMealList = async () => {
     await getDocs(collection(db, "Meal"))
             .then((querySnapshot)=>{               
-                const newData = querySnapshot.docs
+                const Data = querySnapshot.docs
                     .map((doc) => ({...doc.data(), id:doc.id }));
-                setMealList(newData);                
+                Data&&setMealList(Data);                
             })
   };
   return mealList&&(
