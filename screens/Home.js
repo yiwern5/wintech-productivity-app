@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, ImageBackground, Image } from "react-native";
 import Day from "../components/Day";
 import ChallengeCard from "../components/ChallengeCard";
 import ProjectCard from "../components/ProjectCard";
+import Colors from "../constants/Colors";
 
 export default class Home extends Component {
   state = {
@@ -68,7 +69,7 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
-    backgroundColor: "#f08a5d",
+    backgroundColor: Colors.secondary,
   },
   firstContainer: {
     flex: 1.5,

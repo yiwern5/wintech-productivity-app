@@ -3,7 +3,8 @@ import React from 'react'
 import * as WebBrowser from "expo-web-browser";
 import { AntDesign } from '@expo/vector-icons';
 import { useOAuth } from '@clerk/clerk-expo';
-import { useWarmUpBrowser } from '../hooks/useWarmUpBrowser'
+import { useWarmUpBrowser } from '../hooks/useWarmUpBrowser';
+import Colors from '../constants/Colors';
  
 WebBrowser.maybeCompleteAuthSession();
 
@@ -28,9 +29,9 @@ export default function Login() {
     }, []);
   return (
     <View>
-      <Image source={require('./../assets/login.png')} />
+      <Image source={require('./../assets/login.png')} style={{alignSelf:'center'}}/>
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to LifeSync</Text>
+        <Text style={styles.welcome}>Welcome to Lifesync</Text>
         <TouchableOpacity onPress={onPress}>
           <View style={styles.button}>
             <AntDesign name="google" size={24} color="black" style={{marginRight:10}}/>
@@ -46,14 +47,15 @@ const styles = StyleSheet.create({
   container:{
     paddingTop: 40,
     marginTop:-10,
-    backgroundColor:'#fff',
+    backgroundColor:Colors.white,
     borderTopRightRadius:20,
     borderTopLeftRadius:20
   },
   welcome:{
     fontSize:35, 
     textAlign:'center', 
-    fontWeight:'bold'
+    fontWeight:'bold',
+    marginTop:50
   },
   login:{
     textAlign:'center',
@@ -61,13 +63,13 @@ const styles = StyleSheet.create({
     fontSize:20
   },
   button:{
-    backgroundColor:'#cae2a5',
+    backgroundColor:Colors.primary,
     padding:10,
     margin:30,
     display:'flex',
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center',
-    borderRadius: 20
+    borderRadius:20
   }
 })
