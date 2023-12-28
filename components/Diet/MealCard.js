@@ -2,8 +2,21 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import ChickenRice from '../../assets/singapore-chicken-rice.jpg';
 import Colors from '../../constants/Colors';
+import axios from 'axios';
 
-export default function MealCard({item}) {  
+export default function MealCard({item}) { 
+  const query = '3lb carrots and a chicken sandwich';
+
+  const response = axios.get('https://api.calorieninjas.com/v1/nutrition?query=', {
+        params: {
+          query: query
+        },
+        headers: {
+          'X-Api-Key': 'Lzd0pkAjqi2jje1tnfx4bA==tZEohUdw55MBmvp7'
+        },
+      });
+
+  (response.data)&&console.log(response.data);
   return item&&(
     <View style={styles.container}>
         

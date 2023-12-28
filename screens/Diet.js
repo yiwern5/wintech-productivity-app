@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import * as Progress from 'react-native-progress';
 import Colors from '../constants/Colors';
@@ -6,11 +6,13 @@ import { Entypo, AntDesign } from '@expo/vector-icons';
 import MealCard from '../components/Diet/MealCard';
 import { db } from "../firebase";
 import { collection, getDocs, docs } from "firebase/firestore";
+import { useNavigation } from '@react-navigation/native';
 
 export default function Diet() {
   const intake = 500;
   const totalIntake = 1500;
   const [mealList, setMealList] = useState([]);
+  const navigation = useNavigation();
   useEffect(()=>{
     getMealList();
   },[])
@@ -49,21 +51,21 @@ export default function Diet() {
 
       <View style={styles.rowButton}>
         <View>
-          <View style={styles.b1}>
+          <TouchableOpacity style={styles.b1} onPress={()=>navigation.navigate('UploadDiet')}>
             <Entypo name="camera" size={38} color="black" />
-          </View>
+          </TouchableOpacity>
           <Text style={styles.buttonText}>Upload</Text>
         </View>
         <View>
-          <View style={styles.b2}>
+          <TouchableOpacity style={styles.b2} onPress={()=>navigation.navigate('AddDiet')}>
             <AntDesign name="pluscircleo" size={38} color="black" />
-          </View>
+          </TouchableOpacity>
           <Text style={styles.buttonText}>Add</Text>
         </View>
         <View>
-          <View style={styles.b3}>
+          <TouchableOpacity style={styles.b3} onPress={()=>navigation.navigate('ViewDiet')}>
             <AntDesign name="book" size={38} color="black" />
-          </View>
+          </TouchableOpacity>
           <Text style={styles.buttonText}>View</Text>
         </View>
       </View>
