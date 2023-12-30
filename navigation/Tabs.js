@@ -195,7 +195,7 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="Diet"
+                name="DietNav"
                 component={DietNavigation}
                 options={{
                     tabBarIcon: ({ focused }) => (

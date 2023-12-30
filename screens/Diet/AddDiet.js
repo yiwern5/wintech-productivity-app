@@ -7,7 +7,7 @@ export default function AddDiet() {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={()=>navigation.goBack()}>
+      <TouchableOpacity onPress={()=>navigation.navigate("Diet")}>
         <Ionicons name="arrow-back" size={35} color="black" />
       </TouchableOpacity>
       <Text>Add Diet</Text>
