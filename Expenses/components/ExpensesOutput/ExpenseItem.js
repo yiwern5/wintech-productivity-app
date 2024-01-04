@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: GlobalStyles.colors.pink,
     elevation: 4,
-    shadowColor: GlobalStyles.colors.gray500,
+    shadowColor: GlobalStyles.colors.thistle,
     shadowOffset: {width: 1, height: 1},
     shadowRadius: 4,
     shadowOpacity: 0.5,

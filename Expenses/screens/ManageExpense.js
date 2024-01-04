@@ -10,7 +10,7 @@ import { ExpensesContext } from "../store/expenses-context";
 import { deleteExpense, storeExpense, updateExpense } from "../util/http";
 
 function ManageExpense({ route, navigation }) {
-  const [isSubmitting, setIsSubmittig] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState();
 
   const expensesCtx = useContext(ExpensesContext);
@@ -29,7 +29,7 @@ function ManageExpense({ route, navigation }) {
   }, [navigation, isEditing]);
 
   async function deleteExpenseHandler() {
-    setIsSubmittig(true);
+    setIsSubmitting(true);
 
     try {
       await deleteExpense(editedExpenseId);
@@ -38,7 +38,7 @@ function ManageExpense({ route, navigation }) {
       navigation.goBack();
     } catch (error) {
       setError("Could not delete expense - please try again later");
-      setIsSubmittig(false);
+      setIsSubmitting(false);
     }
   }
 
@@ -47,7 +47,8 @@ function ManageExpense({ route, navigation }) {
   }
 
   async function confirmHandler(expenseData) {
-    setIsSubmittig(true);
+    setIsSubmitting(true);
+    setError(null);
 
     try {
       if (isEditing) {
@@ -62,12 +63,16 @@ function ManageExpense({ route, navigation }) {
       navigation.goBack();
     } catch (error) {
       setError("Could not save data - please try again later!");
-      setIsSubmittig(false);
+      setIsSubmitting(false);
     }
   }
 
+  function handleConfirm() {
+    setError(null);
+  }
+
   if (error && !isSubmitting) {
-    return <ErrorOverlay message={error} />;
+    return <ErrorOverlay message={error} onConfirm={handleConfirm}/>;
   }
 
   if (isSubmitting) {
@@ -86,7 +91,7 @@ function ManageExpense({ route, navigation }) {
         <View style={styles.deleteContainer}>
           <TrashIcon
             name = "trash"
-            color={GlobalStyles.colors.error500}
+            color={GlobalStyles.colors.crimson}
             size={36}
             onPress={deleteExpenseHandler}
           />

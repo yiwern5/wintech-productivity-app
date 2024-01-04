@@ -6,6 +6,7 @@ import LoadingOverlay from "../components/UI/LoadingOverlay";
 import { ExpensesContext } from "../store/expenses-context";
 import { getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
+import { createErrorHandler } from "expo/build/errors/ExpoErrorManager";
 
 function RecentExpenses() {
   const [isFetching, setIsFetching] = useState(true);
@@ -32,12 +33,12 @@ function RecentExpenses() {
     getExpenses();
   }, []);
 
-  // function errorHandler() {
-  //   setError(null);
-  // }
+  function errorHandler() {
+    setError(null);
+  }
 
   if (error && !isFetching) {
-    return <ErrorOverlay message={error} />;
+    return <ErrorOverlay message={error} onConfirm={errorHandler}/>;
   }
 
   if (isFetching) {

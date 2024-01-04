@@ -4,14 +4,14 @@
 
 ## Description
 
-In the fast-paced modern world, individuals find it challenging to prioritise their personal wellbeing. Whilst there are a multitude of productivity applications, it seems to focus on a singular feature such as to-do list, meal preparation and fitness tracker. Hence, Lifesync is an all-in-one application which has features such as a calendar, a diary, diet, exercise and habit trackers, improving users’ convenience. 
+In the fast-paced modern world, individuals find it challenging to prioritise their personal wellbeing. Whilst there are a multitude of productivity applications, it seems to focus on a singular feature such as to-do list, meal preparation and expense tracker. Hence, Lifesync is an all-in-one application which has features such as a calendar, a diary, diet, expense and habit trackers, improving users’ convenience. 
 
 ## Features
 
 - 📆 **Schedule**: Coordinate your schedule using the app in-built calendar. You would also have an option to sync your in-app calendar with your personal Google Calendar. 
 - 📕 **Diary**: A personal space to express your thoughts, experiences and reflections for the day through text entries by writing, and visual entries by inserting pictures. 
 - 🥗 **Calories Tracking**: Take/upload photos of your meals to LifeSync to track calories via our meal recognition feature.
-- 🏋️ **Workout Plans**: View recommended workout plans or create your own workout plans!
+- 💰 **Expense Tracker**: Simplify expense management by tracking, editing, adding, and deleting expenses with ease. Review all recorded expenses or effortlessly focus on the last 7 days for a quick financial overview.
 - 🏅 **Habit Tracker**: Track your progress and earn badges when you maintain the streaks for 7, 14, 28 consecutive days.
 
 ## Language and Tools Used
@@ -51,5 +51,5 @@ Firebase is a powerful backend-as-a-service (BaaS) platform, seamlessly integrat
 ## Team members
 1. Han Zixuan Nancy (@hzxnancy)
 2. S Devi Harshitha (@sdevih)
-3. Kelly (@Bonzzz3)
+3. Kelly Bong Jia Qi (@Bonzzz3)
 4. Tsui Yi Wern (@yiwern5)

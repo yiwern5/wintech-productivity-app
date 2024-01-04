@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     textAlign: "center",
-    color: GlobalStyles.colors.error500,
+    color: GlobalStyles.colors.crimson,
     margin: 8,
   },
   buttons: {
