@@ -1,43 +1,83 @@
-import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import * as Progress from 'react-native-progress';
 import Colors from '../constants/Colors';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import MealCard from '../components/Diet/MealCard';
 import { db } from "../firebase";
-import { collection, getDocs, docs } from "firebase/firestore";
-import { useNavigation } from '@react-navigation/native';
+import { collection, getDocs, docs, where, query, orderBy } from "firebase/firestore";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useUser } from '@clerk/clerk-expo';
 
 export default function Diet() {
-  const intake = 500;
-  const totalIntake = 1500;
   const [mealList, setMealList] = useState([]);
+  const [totalIntake, setTotalIntake] = useState(1800);
   const navigation = useNavigation();
-  useEffect(()=>{
+  const {user} = useUser();
+  const email = user.primaryEmailAddress.emailAddress;
+  const intake = mealList.reduce((sum, item) => sum + item.calories, 0); 
+
+  useFocusEffect(()=>{
     getMealList();
-  },[])
+  });
+
   const getMealList = async () => {
-    await getDocs(collection(db, "Meal"))
-            .then((querySnapshot)=>{               
-                const Data = querySnapshot.docs
-                    .map((doc) => ({...doc.data(), id:doc.id }));
-                Data&&setMealList(Data);                
-            })
+    try {
+      const q = query(collection(db, "Meal"), 
+      where("user", "==", email));
+      const querySnapshot = await getDocs(q);
+  
+      const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  
+      setMealList(data);
+    } catch (error) {
+      console.error('Error fetching data from Firestore:', error);
+    }
   };
+
+  const handleChangeIntake = () => {
+    let userInput = '';
+  
+    // Show an alert with a text input
+    Alert.prompt(
+      'Change Total Intake',
+      'Enter your desired intake:',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: (input) => {
+            // Handle the user input here
+            if (input) {
+              userInput = input;
+              setTotalIntake(Number(userInput));
+            }
+          },
+        },
+      ],
+      'plain-text',
+      '', // Default value for the text input
+      'numeric' // Specify the keyboard type (optional)
+    );
+  };
+  
   return mealList&&(
     <View>
       <View style={styles.container}>
         <Text style={styles.title}>Diet</Text>
       </View>
 
-      <View style={{alignItems:'center'}}>
+      <TouchableOpacity style={{alignItems:'center'}} onPress={handleChangeIntake}>
         <Progress.Circle size={200} animated={false} progress={intake/totalIntake} 
           color={intake/totalIntake<=1?Colors.tertiary:Colors.red} unfilledColor={Colors.platinum} 
           borderWidth={0} thickness={25} strokeCap='round'
           showsText={true} formatText={(intake)=>(
           <Text style={{ textAlign: 'center' }}>
             <Text style={{ color: Colors.tertiary, fontSize: 46 }}>
-              {intake*totalIntake}
+              {Math.ceil(intake*totalIntake)}
             </Text>
             {"\n"}
             <Text style={{ color: 'black', fontSize: 24 }}>
@@ -47,7 +87,7 @@ export default function Diet() {
         )}
           textStyle={{color:Colors.black, fontWeight:'bold'}}
         />
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.rowButton}>
         <View>
@@ -72,15 +112,20 @@ export default function Diet() {
 
       <Text style={styles.mealTitle}>Today's Meal</Text>
 
+      {mealList==null ?
       <FlatList 
-        data={mealList}
-        horizontal={true} showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{paddingHorizontal: 5}}
-        renderItem={({item})=>(
-          <MealCard item={item}/>
-        )}
-
+      data={mealList}
+      horizontal={true} showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{paddingHorizontal: 5}}
+      renderItem={({item})=>(
+        <MealCard item={item}/>
+      )}
       />
+      :
+      <Text style={styles.empty}>No meals yet...</Text>
+      }
+
+      
 
     </View>
   )
@@ -138,5 +183,12 @@ const styles = StyleSheet.create({
     fontSize:24, 
     fontWeight:'bold', 
     marginLeft:30
+  },
+  empty: {
+    textAlign:'center',
+    margin:100,
+    fontSize:18,
+    fontWeight:'500',
+    color:Colors.tertiary
   }
 })

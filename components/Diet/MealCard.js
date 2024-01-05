@@ -1,36 +1,22 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
-import ChickenRice from '../../assets/singapore-chicken-rice.jpg';
 import Colors from '../../constants/Colors';
-import axios from 'axios';
 
 export default function MealCard({item}) { 
-  const query = '3lb carrots and a chicken sandwich';
-
-  const response = axios.get('https://api.calorieninjas.com/v1/nutrition?query=', {
-        params: {
-          query: query
-        },
-        headers: {
-          'X-Api-Key': 'Lzd0pkAjqi2jje1tnfx4bA==tZEohUdw55MBmvp7'
-        },
-      });
-
-  (response.data)&&console.log(response.data);
   return item&&(
     <View style={styles.container}>
         
-        <Image style={styles.pic} source={ChickenRice} />
+        <Image style={styles.pic} source={{uri:item.image}} />
 
         <View style={styles.text}>
-            <Text style={styles.name}>{item.Name}</Text>
+            <Text style={styles.name}>{item.name}</Text>
 
             <View style={styles.row}>
                 <View>
-                <Text style={styles.type}>{item.Type}</Text>
+                <Text style={styles.type}>{item.type}</Text>
                 </View>
                 <View>
-                <Text style={styles.cal}> · {item.Calories} kcal</Text>
+                <Text style={styles.cal}> · {item.calories} kcal</Text>
                 </View>
             </View>
         </View>

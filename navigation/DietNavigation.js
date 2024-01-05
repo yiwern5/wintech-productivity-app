@@ -3,8 +3,9 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import Diet from '../screens/Diet';
 import UploadDiet from '../screens/Diet/UploadDiet';
-import AddDiet from '../screens/Diet/AddDiet';
 import ViewDiet from '../screens/Diet/ViewDiet';
+import AddDiet from '../screens/Diet/AddDiet';
+import SaveDiet from '../screens/Diet/SaveDiet';
 
 const Stack=createStackNavigator();
 export default function DietNavigation() {
@@ -14,6 +15,7 @@ export default function DietNavigation() {
         <Stack.Screen name='UploadDiet' component={UploadDiet} />
         <Stack.Screen name='AddDiet' component={AddDiet} />
         <Stack.Screen name='ViewDiet' component={ViewDiet} />
+        <Stack.Screen name='SaveDiet' component={SaveDiet} />
     </Stack.Navigator>
   )
 }

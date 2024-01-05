@@ -1,16 +1,33 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, Button} from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, Button, ImageBackground} from 'react-native'
 import React from 'react'
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Camera, CameraType } from 'expo-camera';
 import { useState } from 'react';
 import Colors from '../../constants/Colors';
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import * as ImagePicker from 'expo-image-picker';
 
 export default function UploadDiet() {
   const navigation = useNavigation();
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  console.log(permission);
+  const storage = getStorage();
+  const storageRef = ref(storage, 'meal');
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    let response = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!response.canceled) {
+      const source = response.assets[0];
+      setImage(source);
+    }
+  };
 
   if (!permission) {
     return <View />
@@ -61,26 +78,52 @@ export default function UploadDiet() {
 
   return permission.granted === true &&(
     <View style={styles.container}>
-      <TouchableOpacity onPress={()=>navigation.navigate("Diet")}>
-        <Ionicons name="arrow-back" size={35} color="black" />
-      </TouchableOpacity>
 
-      <View style={styles.camcontainer}>
-        <Camera style={styles.camera} type={type}>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.flipbutton} onPress={toggleCameraType}>
-              <MaterialIcons name="flip-camera-ios" size={35} color={Colors.primary} />
-            </TouchableOpacity>
+    {image ?
+      (<View>
+          <TouchableOpacity onPress={() => {setImage(null)}}>
+            <Ionicons name="arrow-back" size={35} color="black" />
+          </TouchableOpacity>
+
+          <View style={{overflow:'hidden'}}>
+            <Image source={{ uri: image.uri }} style={styles.preview}/>
           </View>
-        </Camera>
       </View>
+      )
+      :
+      (
+      <View>
+        <TouchableOpacity onPress={()=>navigation.navigate("Diet")}>
+          <Ionicons name="arrow-back" size={35} color="black" />
+        </TouchableOpacity>
 
-      <View style={styles.row}>
-        <View style={styles.shootbutton}>
-          <FontAwesome name="camera" size={38} color={Colors.white} />
+        <View style={styles.camcontainer}>
+          <Camera style={styles.camera} type={type}>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.flipbutton} onPress={toggleCameraType}>
+                <MaterialIcons name="flip-camera-ios" size={35} color={Colors.primary} />
+              </TouchableOpacity>
+            </View>
+          </Camera>
+        </View>
+
+        <View style={styles.row}>
+
+          <View>
+            <MaterialIcons name="photo-album" size={40} color="transparent" />
+          </View> 
+
+          <View style={styles.shootbutton}>
+            <FontAwesome name="camera" size={38} color={Colors.white} />
+          </View>
+
+          <TouchableOpacity style={styles.albumbutton} onPress={pickImage}>
+            <MaterialIcons name="photo-album" size={40} color="black" />
+            <Text style={styles.album}>Album</Text>
+          </TouchableOpacity> 
         </View>
       </View>
-      
+    )}
     </View>
   )
 }
@@ -92,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   camcontainer: {
-    height:300,
+    height:330,
     justifyContent:'center',
     marginTop:100,
     borderRadius:20
@@ -116,10 +159,30 @@ const styles = StyleSheet.create({
     width:70, 
     height:70, 
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
+    marginLeft:10
   },
   row: {
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
     alignItems:'center',
     marginTop:20
+  },
+  albumbutton: {
+    marginRight:10
+  },
+  album: {
+    fontSize:12,
+    textAlign:'center',
+    fontWeight:'bold'
+  },
+  preview: {
+    height:330, 
+    aspectRatio:1 / 1, 
+    marginTop:100, 
+    resizeMode:'cover', 
+    alignSelf:'center',
+    borderRadius:20
   }
 })
