@@ -1,14 +1,45 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import React, { useState } from 'react'
 import Colors from '../../constants/Colors';
-import { Ionicons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, FontAwesome, AntDesign } from '@expo/vector-icons';
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from '../../firebase';
 
 export default function ViewCard({item}) { 
   const timestamp = item.time;
   const date = new Date(timestamp.seconds*1000);
   const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
+  const [isFocused, setIsFocused] = useState(false);
+  const handlePress = () => {
+    setIsFocused(!isFocused);
+  };
+  const deleteItem = async () => {
+    try {
+      await deleteDoc(doc(db, "Meal", item.id));
+      Alert.alert("Meal deleted!");
+    } catch (error) {
+      Alert.alert('Error deleting item:', error);
+    }
+  }
+
   return item&&(
+    <TouchableOpacity onPress={handlePress}>
+    {isFocused
+    ?(
+    <View style={styles.selected}>
+        <Text style={styles.delete}>Do you want to delete this meal?</Text>
+        <View style={styles.tickcross}>
+          <TouchableOpacity style={{marginRight:15}} onPress={handlePress}>
+            <AntDesign name="close" size={70} color="red" />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={deleteItem}>
+            <AntDesign name="check" size={70} color="green" />
+          </TouchableOpacity>
+        </View>
+    </View>
+    ):(
     <View style={styles.container}>
         
         <Image style={styles.pic} source={{uri:item.image}} />
@@ -74,6 +105,8 @@ export default function ViewCard({item}) {
         </View>
 
     </View>
+    )}
+    </TouchableOpacity>
   )
 }
 
@@ -146,5 +179,27 @@ const styles = StyleSheet.create({
         borderRadius:99, 
         alignItems:'center', 
         justifyContent:'center'
+    },
+    selected: {
+        marginVertical:10, 
+        marginHorizontal:10, 
+        backgroundColor:Colors.primary, 
+        borderRadius:20, 
+        width:'auto',
+        height:405,
+        alignItems:'center',
+        paddingVertical:150,
+        paddingHorizontal:20
+    },
+    delete: {
+        fontSize:20, 
+        fontWeight:'bold', 
+        textAlign:'center', 
+        alignSelf:'center'
+    },
+    tickcross: {
+        display:'flex', 
+        flexDirection:'row', 
+        padding:10
     }
 })

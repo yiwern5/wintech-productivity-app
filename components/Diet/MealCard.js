@@ -13,6 +13,7 @@ export default function MealCard({item}) {
   const deleteItem = async () => {
     try {
       await deleteDoc(doc(db, "Meal", item.id));
+      Alert.alert("Meal deleted!");
     } catch (error) {
       Alert.alert('Error deleting item:', error);
     }
@@ -22,8 +23,8 @@ export default function MealCard({item}) {
       {isFocused
       ?(
       <View style={styles.selected}>
-        <Text style={{fontSize:20, fontWeight:'bold', textAlign:'center', alignSelf:'center'}}>Do you want to delete this meal?</Text>
-        <View style={{display:'flex', flexDirection:'row', padding:10}}>
+        <Text style={styles.delete}>Do you want to delete this meal?</Text>
+        <View style={styles.tickcross}>
           <TouchableOpacity style={{marginRight:15}} onPress={handlePress}>
             <AntDesign name="close" size={70} color="red" />
           </TouchableOpacity>
@@ -106,4 +107,15 @@ const styles = StyleSheet.create({
     paddingVertical:60,
     paddingHorizontal:20
   },
+  delete: {
+    fontSize:20, 
+    fontWeight:'bold', 
+    textAlign:'center', 
+    alignSelf:'center'
+  },
+  tickcross: {
+    display:'flex', 
+    flexDirection:'row', 
+    padding:10
+  }
 })
