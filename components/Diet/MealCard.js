@@ -9,7 +9,6 @@ export default function MealCard({item}) {
   const [isFocused, setIsFocused] = useState(false);
   const handlePress = () => {
     setIsFocused(!isFocused);
-    console.log(item)
   };
   const deleteItem = async () => {
     try {

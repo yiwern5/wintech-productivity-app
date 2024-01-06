@@ -98,20 +98,20 @@ export default function Diet() {
       </TouchableOpacity>
 
       <View style={styles.rowButton}>
-        <View>
+      {/* <View>
           <TouchableOpacity style={styles.b1} onPress={()=>navigation.navigate('UploadDiet')}>
             <Entypo name="camera" size={38} color="black" />
           </TouchableOpacity>
           <Text style={styles.buttonText}>Upload</Text>
-        </View>
-        <View>
-          <TouchableOpacity style={styles.b2} onPress={()=>navigation.navigate('AddDiet')}>
+        </View> */}
+        <View style={{marginRight:100}}>
+          <TouchableOpacity style={styles.b1} onPress={()=>navigation.navigate('AddDiet')}>
             <AntDesign name="pluscircleo" size={38} color="black" />
           </TouchableOpacity>
           <Text style={styles.buttonText}>Add</Text>
         </View>
         <View>
-          <TouchableOpacity style={styles.b3} onPress={()=>navigation.navigate('ViewDiet')}>
+          <TouchableOpacity style={styles.b2} onPress={()=>navigation.navigate('ViewDiet')}>
             <AntDesign name="book" size={38} color="black" />
           </TouchableOpacity>
           <Text style={styles.buttonText}>View</Text>
@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
     height:70, 
     justifyContent:'center', 
     alignItems:'center', 
-    marginHorizontal:65,
     marginBottom:5
   },
   b3: {
