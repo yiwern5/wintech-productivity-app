@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useUser } from '@clerk/clerk-expo';
-import { collection, getDocs, where, query } from "firebase/firestore";
+import { collection, getDocs, docs, where, query, orderBy } from "firebase/firestore";
 import { db, storage } from '../../firebase';
 import ViewCard from '../../components/Diet/ViewCard';
 import Colors from '../../constants/Colors';
-import { getDownloadURL } from 'firebase/storage';
+import { getDownloadURL, ref } from 'firebase/storage';
 
 export default function ViewDiet() {
   const navigation = useNavigation();
@@ -22,7 +22,8 @@ export default function ViewDiet() {
   const getMealList = async () => {
     try {
       const q = query(collection(db, "Meal"), 
-      where("user", "==", email));
+      where("user", "==", email),
+      orderBy("time", "desc"));
       const querySnapshot = await getDocs(q);
   
       const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -55,7 +56,9 @@ export default function ViewDiet() {
         <Ionicons name="arrow-back" size={35} color="black" />
       </TouchableOpacity>
 
-      {mealList==null ?
+      {mealList.length === 0 ?
+      <Text style={styles.empty}>No meals yet...</Text>
+      :
       <FlatList
       data={mealList}
       contentContainerStyle={{paddingHorizontal: 5}}
@@ -63,8 +66,6 @@ export default function ViewDiet() {
         <ViewCard item={item}/>
       )}
       />
-      :
-      <Text style={styles.empty}>No meals yet...</Text>
       }
     </View>
   )

@@ -5,7 +5,7 @@ import Colors from '../constants/Colors';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import MealCard from '../components/Diet/MealCard';
 import { db } from "../firebase";
-import { collection, getDocs, docs, where, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, docs, where, query, orderBy, Timestamp } from "firebase/firestore";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useUser } from '@clerk/clerk-expo';
 
@@ -16,6 +16,11 @@ export default function Diet() {
   const {user} = useUser();
   const email = user.primaryEmailAddress.emailAddress;
   const intake = mealList.reduce((sum, item) => sum + item.calories, 0); 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(today);
+    endOfDay.setHours(23, 59, 59, 999);
 
   useFocusEffect(()=>{
     getMealList();
@@ -24,7 +29,10 @@ export default function Diet() {
   const getMealList = async () => {
     try {
       const q = query(collection(db, "Meal"), 
-      where("user", "==", email));
+      where("user", "==", email),
+      where("time", ">=", today),
+      where("time", "<=", endOfDay),
+      orderBy("time", "desc"));
       const querySnapshot = await getDocs(q);
   
       const data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -112,7 +120,9 @@ export default function Diet() {
 
       <Text style={styles.mealTitle}>Today's Meal</Text>
 
-      {mealList==null ?
+      {mealList.length === 0 ?
+      <Text style={styles.empty}>No meals yet...</Text>
+      :
       <FlatList 
       data={mealList}
       horizontal={true} showsHorizontalScrollIndicator={false}
@@ -121,8 +131,6 @@ export default function Diet() {
         <MealCard item={item}/>
       )}
       />
-      :
-      <Text style={styles.empty}>No meals yet...</Text>
       }
 
       

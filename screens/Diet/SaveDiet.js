@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native'
 import React from 'react'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -38,6 +38,8 @@ export default function SaveDiet() {
             type: type,
             time: serverTimestamp()
           }).then(()=>navigation.navigate('Diet'));
+        
+          Alert.alert(`Meal saved!`)
     }
 
     return meal&&image&&(

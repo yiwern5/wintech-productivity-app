@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, Button, ImageBackground} from 'react-native'
-import React from 'react'
+import React, { useRef } from 'react'
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Camera, CameraType } from 'expo-camera';
@@ -7,6 +7,7 @@ import { useState } from 'react';
 import Colors from '../../constants/Colors';
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import * as ImagePicker from 'expo-image-picker';
+import { manipulateAsync } from 'expo-image-manipulator';
 
 export default function UploadDiet() {
   const navigation = useNavigation();
@@ -15,6 +16,7 @@ export default function UploadDiet() {
   const storage = getStorage();
   const storageRef = ref(storage, 'meal');
   const [image, setImage] = useState(null);
+  const cameraRef = useRef(null);
 
   const pickImage = async () => {
     let response = await ImagePicker.launchImageLibraryAsync({
@@ -26,6 +28,28 @@ export default function UploadDiet() {
     if (!response.canceled) {
       const source = response.assets[0];
       setImage(source);
+    }
+  };
+
+  const takePicture = async () => {
+    if (cameraRef) {
+      try { 
+        const picture = await cameraRef.current.takePictureAsync();
+        // Calculate the cropped area
+        const width = picture.width;
+        const height = picture.height;
+        const shorterSide = Math.min(width, height);
+        const startingHeight = (height - shorterSide) / 2;
+        const startingWidth = (width - shorterSide) / 2;
+        // Cropping image
+        const cropped_img = await manipulateAsync(
+          picture.uri,
+          [{crop: {height: shorterSide, originX: startingWidth , originY:startingHeight, width:shorterSide}}],
+          );
+        setImage(cropped_img);
+      } catch (e) {
+        alert(e)
+      }
     }
   };
 
@@ -88,6 +112,10 @@ export default function UploadDiet() {
           <View style={{overflow:'hidden'}}>
             <Image source={{ uri: image.uri }} style={styles.preview}/>
           </View>
+
+          <TouchableOpacity style={styles.analysebutton}>
+            <Text style={styles.analysetext}>Analyse</Text>
+          </TouchableOpacity>
       </View>
       )
       :
@@ -98,7 +126,7 @@ export default function UploadDiet() {
         </TouchableOpacity>
 
         <View style={styles.camcontainer}>
-          <Camera style={styles.camera} type={type}>
+          <Camera style={styles.camera} type={type} ref={cameraRef}>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.flipbutton} onPress={toggleCameraType}>
                 <MaterialIcons name="flip-camera-ios" size={35} color={Colors.primary} />
@@ -113,9 +141,9 @@ export default function UploadDiet() {
             <MaterialIcons name="photo-album" size={40} color="transparent" />
           </View> 
 
-          <View style={styles.shootbutton}>
+          <TouchableOpacity style={styles.shootbutton} onPress={()=>takePicture()}>
             <FontAwesome name="camera" size={38} color={Colors.white} />
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity style={styles.albumbutton} onPress={pickImage}>
             <MaterialIcons name="photo-album" size={40} color="black" />
@@ -136,7 +164,9 @@ const styles = StyleSheet.create({
   },
   camcontainer: {
     height:330,
+    width:340,
     justifyContent:'center',
+    alignSelf:'center',
     marginTop:100,
     borderRadius:20
   },
@@ -179,10 +209,24 @@ const styles = StyleSheet.create({
   },
   preview: {
     height:330, 
-    aspectRatio:1 / 1, 
+    width:340,
     marginTop:100, 
     resizeMode:'cover', 
     alignSelf:'center',
     borderRadius:20
-  }
+  },
+  analysebutton: {
+    backgroundColor:Colors.tertiary, 
+    width:120, 
+    padding:20, 
+    borderRadius:20, 
+    alignItems:'center', 
+    alignSelf:'center', 
+    marginTop:50
+},
+analysetext: {
+    fontSize:18, 
+    fontWeight:'bold', 
+    color:Colors.white
+}
 })

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -26,11 +26,30 @@ export default function AddDiet() {
     });
 
     console.log(response.data.items);
-    navigation.navigate('SaveDiet',{
-      meal:response.data.items,
-      image:image,
-      type:value
-    })
+
+    if(value==null) {
+      Alert.alert(`Please select time.`);
+    }
+
+    else if(image==null) {
+      Alert.alert(`Please select an image.`);
+    }
+
+    else if(query=='') {
+      Alert.alert(`Please enter food.`);
+    }
+
+    else if(response.data.items.length === 0) {
+      Alert.alert(`Sorry Lifesync does not support the food input, please try another word.`)
+    }
+
+    else {
+      navigation.navigate('SaveDiet',{
+        meal:response.data.items,
+        image:image,
+        type:value
+      })
+    }
   };
 
   const pickImage = async () => {

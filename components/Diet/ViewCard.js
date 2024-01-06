@@ -1,9 +1,13 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import Colors from '../../constants/Colors';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 
 export default function ViewCard({item}) { 
+  const timestamp = item.time;
+  const date = new Date(timestamp.seconds*1000);
+  const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+
   return item&&(
     <View style={styles.container}>
         
@@ -12,20 +16,30 @@ export default function ViewCard({item}) {
         <View style={styles.textcontainer}>
             <Text style={styles.foodname}>{item.name}</Text>
             <View style={styles.row}>
-                <View style={styles.icons}>
-                    <MaterialCommunityIcons name="fire" size={22} color={Colors.primary} style={{marginRight:3}}/>
-                    <Text style={styles.text}>{item.calories} kcal</Text>
+                <View>
+                    <View style={styles.icons}>
+                        <MaterialCommunityIcons name="fire" size={22} color={Colors.primary} style={{marginRight:10}}/>
+                        <Text style={styles.text}>{item.calories} kcal</Text>
+                    </View>
+
+                    <View style={styles.icons}>
+                        <MaterialCommunityIcons name="silverware-fork-knife" size={20} color={Colors.secondary} style={{marginRight:11}}/>
+                        <Text style={styles.text}>{item.servingSize}g</Text>
+                    </View>
                 </View>
 
-                <View style={styles.icons}>
-                    <MaterialCommunityIcons name="silverware-fork-knife" size={20} color={Colors.secondary} style={{marginRight:3}}/>
-                    <Text style={styles.text}>{item.servingSize}g</Text>
+                <View>
+                    <View style={styles.icons}>
+                        <Ionicons name="time" size={20} color={Colors.tertiary} style={{marginRight:10}}/>
+                        <Text style={styles.text}>{item.type}</Text>
+                    </View>
+
+                    <View style={styles.icons}>
+                        <FontAwesome name="calendar-o" size={20} color={Colors.tertiary} style={{marginRight:11}} />
+                        <Text style={styles.text}>{formattedDate}</Text>
+                    </View>
                 </View>
 
-                <View style={styles.icons}>
-                    <Ionicons name="time" size={20} color={Colors.tertiary} style={{marginRight:3}}/>
-                    <Text style={styles.text}>{item.type}</Text>
-                </View>
             </View>
         </View>
 
@@ -92,7 +106,7 @@ const styles = StyleSheet.create({
         display:'flex', 
         flexDirection:'row', 
         justifyContent:'space-between', 
-        marginTop:7 
+        marginTop:7
     },
     text: {
         fontSize:15, 
