@@ -1,27 +1,61 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import React, { useState } from 'react'
 import Colors from '../../constants/Colors';
+import { AntDesign } from '@expo/vector-icons';
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from '../../firebase';
 
 export default function MealCard({item}) { 
+  const [isFocused, setIsFocused] = useState(false);
+  const handlePress = () => {
+    setIsFocused(!isFocused);
+    console.log(item)
+  };
+  const deleteItem = async () => {
+    try {
+      await deleteDoc(doc(db, "Meal", item.id));
+    } catch (error) {
+      Alert.alert('Error deleting item:', error);
+    }
+  }
   return item&&(
-    <View style={styles.container}>
-        
-        <Image style={styles.pic} source={{uri:item.image}} />
+    <TouchableOpacity onPress={handlePress}>
+      {isFocused
+      ?(
+      <View style={styles.selected}>
+        <Text style={{fontSize:20, fontWeight:'bold', textAlign:'center', alignSelf:'center'}}>Do you want to delete this meal?</Text>
+        <View style={{display:'flex', flexDirection:'row', padding:10}}>
+          <TouchableOpacity style={{marginRight:15}} onPress={handlePress}>
+            <AntDesign name="close" size={70} color="red" />
+          </TouchableOpacity>
 
-        <View style={styles.text}>
-            <Text style={styles.name}>{item.name}</Text>
-
-            <View style={styles.row}>
-                <View>
-                <Text style={styles.type}>{item.type}</Text>
-                </View>
-                <View>
-                <Text style={styles.cal}> · {item.calories} kcal</Text>
-                </View>
-            </View>
+          <TouchableOpacity onPress={deleteItem}>
+            <AntDesign name="check" size={70} color="green" />
+          </TouchableOpacity>
         </View>
+      </View>
+      ):(
+        <View style={styles.container}>
+          
+          <Image style={styles.pic} source={{uri:item.image}} />
 
-    </View>
+          <View style={styles.text}>
+              <Text style={styles.name}>{item.name}</Text>
+
+              <View style={styles.row}>
+                  <View>
+                  <Text style={styles.type}>{item.type}</Text>
+                  </View>
+                  <View>
+                  <Text style={styles.cal}> · {item.calories} kcal</Text>
+                  </View>
+              </View>
+          </View>
+
+        </View>
+      )}
+      
+    </TouchableOpacity>
   )
 }
 
@@ -61,5 +95,16 @@ const styles = StyleSheet.create({
   },
   cal: {
     fontSize:16
-  }
+  },
+  selected: {
+    marginVertical:10, 
+    marginHorizontal:10, 
+    backgroundColor:Colors.primary, 
+    borderRadius:20, 
+    width:250,
+    height:240,
+    alignItems:'center',
+    paddingVertical:60,
+    paddingHorizontal:20
+  },
 })

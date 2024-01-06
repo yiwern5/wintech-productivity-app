@@ -5,7 +5,7 @@ import Colors from '../constants/Colors';
 import { Entypo, AntDesign } from '@expo/vector-icons';
 import MealCard from '../components/Diet/MealCard';
 import { db } from "../firebase";
-import { collection, getDocs, docs, where, query, orderBy, Timestamp } from "firebase/firestore";
+import { collection, getDocs, where, query, orderBy } from "firebase/firestore";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useUser } from '@clerk/clerk-expo';
 
