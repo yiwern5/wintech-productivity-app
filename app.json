@@ -21,11 +21,34 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "lifesync"
+    "scheme": "lifesync",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Lifesync to access your camera."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e005ca94-e1b7-4e3c-a985-05c156e93c59"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e005ca94-e1b7-4e3c-a985-05c156e93c59"
+    }
   }
 }

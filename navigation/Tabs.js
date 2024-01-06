@@ -9,6 +9,7 @@ import Workout from "../screens/Workout";
 import Schedule from "../screens/Schedule";
 import Colors from "../constants/Colors";
 import icons from "../constants/icons";
+import DietNavigation from "./DietNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -194,8 +195,8 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="Diet"
-                component={Diet}
+                name="DietNav"
+                component={DietNavigation}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
