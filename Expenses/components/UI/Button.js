@@ -14,27 +14,27 @@ function Button({children, onPress, mode, style}) {
 };
 
 const styles = StyleSheet.create({
-   buttonContainer: {
-       padding: 6,
-       borderRadius: 10,
-       backgroundColor: GlobalStyles.colors.cherry,
-   },
-   flat: {
-       backgroundColor: GlobalStyles.colors.pink,
-   },
-   buttonText: {
+  buttonContainer: {
+    padding: 6,
+    borderRadius: 10,
+    backgroundColor: GlobalStyles.colors.cherry,
+  },
+  flat: {
+    backgroundColor: GlobalStyles.colors.pink,
+  },
+  buttonText: {
     color: "black",
     fontSize: 18,
     textAlign: "center",
-   },
+  },
    flatText: {
-       color: "black",
-   },
+    color: "black",
+  },
    buttonPressed: {
-       opacity: 0.75,
-       backgroundColor: "white",
-       borderRadius: 5,
-   }
+    opacity: 0.75,
+    backgroundColor: "white",
+    borderRadius: 5,
+  }
 });
 
 export default Button
