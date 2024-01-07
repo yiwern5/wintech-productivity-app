@@ -5,7 +5,7 @@ import Svg, { Path } from 'react-native-svg'
 import Home from "../screens/Home";
 import Diary from "../screens/Diary";
 import Diet from "../screens/Diet";
-import Workout from "../screens/Workout";
+import Expense from "../screens/Expense";
 import Schedule from "../screens/Schedule";
 import Colors from "../constants/Colors";
 import icons from "../constants/icons";
@@ -214,8 +214,8 @@ const Tabs = () => {
             />
 
             <Tab.Screen
-                name="Workout"
-                component={Workout}
+                name="Expense"
+                component={Expense}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
