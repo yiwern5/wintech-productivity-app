@@ -84,11 +84,11 @@ export default function Diet() {
           borderWidth={0} thickness={25} strokeCap='round'
           showsText={true} formatText={(intake)=>(
           <Text style={{ textAlign: 'center' }}>
-            <Text style={{ color: Colors.tertiary, fontSize: 46 }}>
+            <Text style={{ color: Colors.tertiary, fontSize: 46, textAlign:'center' }}>
               {Math.ceil(intake*totalIntake)}
             </Text>
             {"\n"}
-            <Text style={{ color: 'black', fontSize: 24 }}>
+            <Text style={{ color: 'black', fontSize: 24, textAlign:'center'}}>
               kcal
             </Text>
           </Text>

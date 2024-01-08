@@ -219,7 +219,7 @@ const Tabs = () => {
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Image
-                            source={icons.workout}
+                            source={icons.expense}
                             resizeMode="contain"
                             style={{
                                 width: 25,
