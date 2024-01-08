@@ -5,8 +5,10 @@ import { getFormattedDate } from "../../util/date";
 
 import Button from "../UI/Button";
 import Input from "./Input";
+import { useUser } from "@clerk/clerk-expo";
 
 function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
+  const { user } = useUser();
   const [inputs, setInputs] = useState({
     amount: {
       value: defaultValues ? defaultValues.amount.toString() : "",
@@ -36,6 +38,7 @@ function ExpenseForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
       amount: +inputs.amount.value,
       date: new Date(inputs.date.value),
       description: inputs.description.value,
+      email: user.primaryEmailAddress.emailAddress,
     };
 
     const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;

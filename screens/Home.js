@@ -10,55 +10,57 @@ import ScheduleProgress from "../components/ScheduleProgress";
 import DiaryProgress from "../components/DiaryProgress";
 import DietProgress from "../components/DietProgress";
 import ExpenseProgress from "../components/ExpenseProgress";
+import ExpensesContextProvider from "../Expenses/store/expenses-context";
 
 export default function Home() {
   const {user} = useUser();
-  const navigation = useNavigation();
     return (
-      <View style={styles.homeContainer}>
-        <View style={styles.firstContainer}>
-          <View style={styles.firstSection}></View>
-          <View style={styles.secondSection}>
-            <View style={styles.userSection}>
-              <Text style={styles.name}>Hi {user.fullName}</Text>
-              <Image style={styles.pfp} source={{uri:user?.imageUrl}}/>
+      <ExpensesContextProvider>
+        <View style={styles.homeContainer}>
+          <View style={styles.firstContainer}>
+            <View style={styles.firstSection}></View>
+            <View style={styles.secondSection}>
+              <View style={styles.userSection}>
+                <Text style={styles.name}>Hi {user.fullName}</Text>
+                <Image style={styles.pfp} source={{uri:user?.imageUrl}}/>
+              </View>
+              <Text style={styles.subtitle}>Here is your progress</Text>
             </View>
-            <Text style={styles.subtitle}>Here is your progress</Text>
+            <View style={styles.thirdSection}>
+              <ImageBackground
+                source={require("../assets/lifesync.png")}
+                style={{
+                  width: "100%",
+                  height: 250,
+                }}
+              />
+            </View>
+            <View style={styles.fourthSection}>
+              <Day dayname="Sun" />
+              <Day dayname="Mon" />
+              <Day dayname="Tue" />
+              <Day dayname="Wed" />
+              <Day dayname="Thu" />
+              <Day dayname="Fri" />
+              <Day dayname="Sat" />
+            </View>
           </View>
-          <View style={styles.thirdSection}>
-            <ImageBackground
-              source={require("../assets/lifesync.png")}
-              style={{
-                width: "100%",
-                height: 250,
-              }}
-            />
-          </View>
-          <View style={styles.fourthSection}>
-            <Day dayname="Sun" />
-            <Day dayname="Mon" />
-            <Day dayname="Tue" />
-            <Day dayname="Wed" />
-            <Day dayname="Thu" />
-            <Day dayname="Fri" />
-            <Day dayname="Sat" />
+          <View style={styles.secondContainer}>
+            <View style={styles.line}></View>
+            <View style={styles.progress}>
+              <Text style={styles.textone}>Today's Progress</Text>
+              <View style={styles.row}>
+                <ScheduleProgress />  
+                <DiaryProgress />
+              </View>
+              <View style={styles.row}>
+                <DietProgress />
+                <ExpenseProgress />
+              </View>
+            </View>
           </View>
         </View>
-        <View style={styles.secondContainer}>
-          <View style={styles.line}></View>
-          <View style={styles.progress}>
-            <Text style={styles.textone}>My Progress</Text>
-            <View style={styles.row}>
-              <ScheduleProgress />  
-              <DiaryProgress />
-            </View>
-            <View style={styles.row}>
-              <DietProgress />
-              <ExpenseProgress />
-            </View>
-          </View>
-        </View>
-      </View>
+      </ExpensesContextProvider>
 )}
 
 const styles = StyleSheet.create({
