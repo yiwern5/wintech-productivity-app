@@ -55,7 +55,6 @@ export default function Expense() {
   return (
     <>
       <StatusBar style="light" />
-      <ExpensesContextProvider>
         <Stack.Navigator screenOptions={{
         headerStyle: {backgroundColor: GlobalStyles.colors.mountbatten},
         headerTintColor: "white",
@@ -78,7 +77,6 @@ export default function Expense() {
               }}
             />
           </Stack.Navigator>
-      </ExpensesContextProvider>
     </>
   );
 }

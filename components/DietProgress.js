@@ -17,10 +17,6 @@ export default function DietProgress() {
     const endOfDay = new Date(today);
     endOfDay.setHours(23, 59, 59, 999);
 
-  useFocusEffect(()=>{
-    getMealList();
-  });
-
   const getMealList = async () => {
     try {
       const q = query(collection(db, "Meal"), 
@@ -37,6 +33,10 @@ export default function DietProgress() {
       console.error('Error fetching data from Firestore:', error);
     }
   };
+
+  useFocusEffect(()=>{
+    getMealList();
+  });
 
   return (
     <View style={styles.container}>

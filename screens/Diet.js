@@ -22,11 +22,7 @@ export default function Diet() {
     const endOfDay = new Date(today);
     endOfDay.setHours(23, 59, 59, 999);
 
-  useFocusEffect(()=>{
-    getMealList();
-  });
-
-  const getMealList = async () => {
+    const getMealList = async () => {
     try {
       const q = query(collection(db, "Meal"), 
       where("user", "==", email),
@@ -42,6 +38,10 @@ export default function Diet() {
       console.error('Error fetching data from Firestore:', error);
     }
   };
+
+  useFocusEffect(()=>{
+    getMealList();
+  });
 
   const handleChangeIntake = () => {
     let userInput = '';

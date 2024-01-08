@@ -50,7 +50,7 @@ export default function ExpenseProgress() {
 
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
     const today = new Date();
-    const date1DayAgo = getDateMinusDays(today, 1);
+    const date1DayAgo = getDateMinusDays(today, 0);
 
     return expense.date >= date1DayAgo && expense.date <= today && expense.email == user.primaryEmailAddress.emailAddress;
   });

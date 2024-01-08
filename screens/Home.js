@@ -15,7 +15,6 @@ import ExpensesContextProvider from "../Expenses/store/expenses-context";
 export default function Home() {
   const {user} = useUser();
     return (
-      <ExpensesContextProvider>
         <View style={styles.homeContainer}>
           <View style={styles.firstContainer}>
             <View style={styles.firstSection}></View>
@@ -60,7 +59,6 @@ export default function Home() {
             </View>
           </View>
         </View>
-      </ExpensesContextProvider>
 )}
 
 const styles = StyleSheet.create({
