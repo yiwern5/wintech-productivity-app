@@ -38,17 +38,6 @@
           "cameraPermission": "Allow Lifesync to access your camera."
         }
       ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "e005ca94-e1b7-4e3c-a985-05c156e93c59"
-      }
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/e005ca94-e1b7-4e3c-a985-05c156e93c59"
-    }
+    ]
   }
 }
