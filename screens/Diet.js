@@ -22,11 +22,7 @@ export default function Diet() {
     const endOfDay = new Date(today);
     endOfDay.setHours(23, 59, 59, 999);
 
-  useFocusEffect(()=>{
-    getMealList();
-  });
-
-  const getMealList = async () => {
+    const getMealList = async () => {
     try {
       const q = query(collection(db, "Meal"), 
       where("user", "==", email),
@@ -42,6 +38,10 @@ export default function Diet() {
       console.error('Error fetching data from Firestore:', error);
     }
   };
+
+  useFocusEffect(()=>{
+    getMealList();
+  });
 
   const handleChangeIntake = () => {
     let userInput = '';
@@ -84,11 +84,11 @@ export default function Diet() {
           borderWidth={0} thickness={25} strokeCap='round'
           showsText={true} formatText={(intake)=>(
           <Text style={{ textAlign: 'center' }}>
-            <Text style={{ color: Colors.tertiary, fontSize: 46 }}>
+            <Text style={{ color: Colors.tertiary, fontSize: 46, textAlign:'center' }}>
               {Math.ceil(intake*totalIntake)}
             </Text>
             {"\n"}
-            <Text style={{ color: 'black', fontSize: 24 }}>
+            <Text style={{ color: 'black', fontSize: 24, textAlign:'center'}}>
               kcal
             </Text>
           </Text>

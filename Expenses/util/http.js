@@ -25,6 +25,7 @@ export async function fetchExpenses() {
       amount: response.data[key].amount,
       date: new Date(response.data[key].date),
       description: response.data[key].description,
+      email: response.data[key].email,
     };
 
     expenses.push(expenseObj);

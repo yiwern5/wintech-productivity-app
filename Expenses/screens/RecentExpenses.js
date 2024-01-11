@@ -7,10 +7,12 @@ import { ExpensesContext } from "../store/expenses-context";
 import { getDateMinusDays } from "../util/date";
 import { fetchExpenses } from "../util/http";
 import { createErrorHandler } from "expo/build/errors/ExpoErrorManager";
+import { useUser } from "@clerk/clerk-expo";
 
 function RecentExpenses() {
   const [isFetching, setIsFetching] = useState(true);
   const [error, setError] = useState();
+  const { user } = useUser();
 
   const expensesCtx = useContext(ExpensesContext);
   //const [fetchedExpenses, setFetchedExpenses] = useState([]);
@@ -49,7 +51,7 @@ function RecentExpenses() {
     const today = new Date();
     const date7DaysAgo = getDateMinusDays(today, 7);
 
-    return expense.date >= date7DaysAgo && expense.date <= today;
+    return expense.date >= date7DaysAgo && expense.date <= today && expense.email == user.primaryEmailAddress.emailAddress;
   });
 
   return (
