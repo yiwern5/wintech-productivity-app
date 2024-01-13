@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 import { getFormattedDate } from "../../util/date";
 
-function DiaryItem({ id, title, entry, date }) {
+function DiaryItem({ id, title, entry, date, image }) {
     const navigation = useNavigation();
 
     function diaryPressHandler() {
@@ -24,6 +24,7 @@ function DiaryItem({ id, title, entry, date }) {
                     </Text>
                     <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
                     <Text style={[styles.textBase, styles.entry]}>{entry}</Text>
+                    <Image style={styles.image} source={{uri: image}} />
                 </View>
             </View>
         </Pressable>
@@ -62,5 +63,11 @@ const styles = StyleSheet.create({
     },
     entry: {
         marginTop: 8
-    }
+    },
+    image: {
+        height:160, 
+        width:'100%', 
+        borderTopLeftRadius:15, 
+        borderTopRightRadius:15
+      },
 });

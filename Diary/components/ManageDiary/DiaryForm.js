@@ -1,12 +1,18 @@
+import React from "react";
 import { useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { Entypo } from '@expo/vector-icons';
 import { GlobalStyles } from "../../constants/styles";
 import { getFormattedDate } from "../../util/date";
+import * as ImagePicker from 'expo-image-picker';
+
 
 import Button from "../UI/Button";
 import Input from "./Input";
 
 function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
+  const [image, setImage] = useState(null);
+  const [imageIsValid, setImageIsValid] = useState(true);
   const [inputs, setInputs] = useState({
     title: {
       value: defaultValues ? defaultValues.title : "",
@@ -36,14 +42,15 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
       title: inputs.title.value,
       date: new Date(inputs.date.value),
       entry: inputs.entry.value,
+      image: image ? image.uri : null,
     };
 
     const titleIsValid = diaryData.title.trim().length > 0;
     const dateIsValid = diaryData.date.toString() !== "Invalid Date";
     const entryIsValid = diaryData.entry.trim().length > 0;
+    const imageIsValid = diaryData.image !== null && diaryData.image !== undefined;
 
-    if (!titleIsValid || !dateIsValid || !entryIsValid) {
-      //Alert.alert("Invalid input", "Please check your input values");
+    if (!titleIsValid || !dateIsValid || !entryIsValid || !imageIsValid) {
       setInputs((curInputs) => {
         return {
           title: { value: curInputs.title.value, isValid: titleIsValid },
@@ -54,16 +61,32 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
           },
         };
       });
+      setImageIsValid(imageIsValid);
       return;
     }
 
     onSubmit(diaryData);
   }
 
+  const pickImage = async () => {
+    let response = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!response.canceled) {
+      const source = response.assets[0];
+      setImage(source);
+      setImageIsValid(true);
+    }
+  };
+
   const formIsInvalid =
     !inputs.title.isValid ||
     !inputs.date.isValid ||
-    !inputs.entry.isValid;
+    !inputs.entry.isValid ||
+    !imageIsValid;
 
   return (
     <View style={styles.form}>
@@ -93,7 +116,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
         />
       </View>
       <Input
-        label="Entry"
+        label="How was your day?"
         invalid={!inputs.entry.isValid}
         textInputConfig={{
           multiline: true,
@@ -101,11 +124,28 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
           value: inputs.entry.value,
         }}
       />
+      { image ? (
+          <TouchableOpacity onPress={pickImage}>
+            <View style={{overflow:'hidden'}}>
+              <Image source={{ uri: image.uri }} style={styles.imagecontainer}/>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.imagecontainer} onPress={pickImage}>
+            <Text>Add an image of your day!</Text>
+          </TouchableOpacity>
+        )}
       {formIsInvalid && (
         <Text style={styles.errorText}>
           Invalid input values - please check your entered data!
         </Text>
       )}
+      {/* <View style={styles.moodContainer}>
+        <Text style={styles.moodText}>My mood: </Text>
+        <Entypo name="emoji-happy" size={24} color="green" />
+        <Entypo name="emoji-neutral" size={24} color="grey" />
+        <Entypo name="emoji-sad" size={24} color="red" />
+      </View> */}
       <View style={styles.buttons}>
         <Button style={styles.button} mode="flat" onPress={onCancel}>
           Cancel
@@ -152,5 +192,23 @@ const styles = StyleSheet.create({
     marginTop: 10,
     minWidth: 120,
     marginHorizontal: 20,
+  },
+  moodContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  moodText: {
+    marginRight: 5,
+  },
+  imagecontainer: {
+    backgroundColor:GlobalStyles.colors.platinum,
+    marginTop:10,
+    height:250,
+    marginBottom:20,
+    borderRadius:20,
+    alignItems:'center',
+    justifyContent:'center'
   },
 });

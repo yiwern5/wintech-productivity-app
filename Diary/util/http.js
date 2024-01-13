@@ -25,6 +25,8 @@ export async function fetchDiary() {
       title: response.data[key].title,
       date: new Date(response.data[key].date),
       entry: response.data[key].entry,
+      image: response.data[key].image,
+      email: response.data[key].email,
       //mood: response.data[key].mood,
     };
 
