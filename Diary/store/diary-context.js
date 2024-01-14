@@ -2,10 +2,10 @@ import { createContext, useReducer } from "react";
 
 export const DiaryContext = createContext({
   diaryentries: [],
-  addDiary: ({ title, entry, date, image }) => {},
+  addDiary: ({ title, entry, date, mood, image, email }) => {},
   setDiary: (diaryentries) => {},
   deleteDiary: ({ id }) => {},
-  updateDiary: (id, { title, entry, date, image}) => {},
+  updateDiary: (id, { title, entry, date, mood, image, email}) => {},
 });
 
 function diaryReducer(state, action) {

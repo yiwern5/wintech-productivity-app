@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 import { getFormattedDate } from "../../util/date";
 
-function DiaryItem({ id, title, entry, date, image }) {
+function DiaryItem({ id, title, entry, date, image, mood }) {
     const navigation = useNavigation();
 
     function diaryPressHandler() {
@@ -22,9 +22,12 @@ function DiaryItem({ id, title, entry, date, image }) {
                     <Text style={[styles.textBase, styles.title]}>
                         {title}
                     </Text>
-                    <Text style={styles.textBase}>{getFormattedDate(date)}</Text>
+                    <Text style={[styles.textBase, styles.date]}>{getFormattedDate(date)}</Text>
                     <Text style={[styles.textBase, styles.entry]}>{entry}</Text>
                     <Image style={styles.image} source={{uri: image}} />
+                </View>
+                <View style={styles.moodContainer}>
+                    <Text style={styles.mood}>{mood}</Text>
                 </View>
             </View>
         </Pressable>
@@ -54,20 +57,39 @@ const styles = StyleSheet.create({
     textBase: {
         fontSize: 14,
         color: "black",
-        marginRight: 100
+        // marginRight: 100
     },
     title: {
         fontSize: 20,
         fontWeight: "bold",
-        marginBottom: 16
+        marginBottom: 10
     },
     entry: {
-        marginTop: 8
+        marginTop: 8,
+        marginBottom: 10,
     },
     image: {
-        height:160, 
-        width:'100%', 
+        height:240, 
+        width:320,
         borderTopLeftRadius:15, 
-        borderTopRightRadius:15
+        borderTopRightRadius:15,
+        borderBottomLeftRadius:15,
+        borderBottomRightRadius:15,
+    },
+    moodContainer: {
+        position: "absolute",
+        top: 5,
+        right: 5,
+        paddingHorizontal: 8,
+        paddingVertical: 8,
+        backgroundColor: GlobalStyles.colors.pink,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        minWidth: 80,
       },
+      mood: {
+        fontSize: 40,
+      },
+
 });
