@@ -14,7 +14,6 @@ export default function Diary() {
   return (
     <>
       <StatusBar style="light" />
-      <DiaryContextProvider>
         <Stack.Navigator screenOptions={{
         headerStyle: {backgroundColor: GlobalStyles.colors.mountbatten},
         headerTintColor: "white",
@@ -37,7 +36,6 @@ export default function Diary() {
               }}
             />
           </Stack.Navigator>
-      </DiaryContextProvider>
     </>
   );
 }
