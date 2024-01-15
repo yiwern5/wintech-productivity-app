@@ -6,6 +6,7 @@ import {AntDesign} from '@expo/vector-icons'
 import {db} from '../firebase'
 import {collection, addDoc,getDocs,deleteDoc,doc,query,where} from 'firebase/firestore'
 import { useUser } from '@clerk/clerk-expo';
+import { useFocusEffect} from '@react-navigation/native';
 
 export default function App() {
   const [title,setTitle] = useState("");
@@ -20,7 +21,7 @@ export default function App() {
         isChecked: false,
         user: email,
       });
-      console.log("Document written with ID: ", docRef.id);
+      //console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -34,8 +35,10 @@ export default function App() {
       querySnapshot.docs.map((doc) => ({...doc.data(),id:doc.id}))
       );
     
-    console.log(todoList);
+   // console.log(todoList);
+
   };
+
 
   const deleteTodoList = async() => {
     const q = query(collection(db, "title"), where("user", "==", email))
@@ -44,15 +47,24 @@ export default function App() {
     getToDo();
   };
 
-  useEffect(() => {
+  falseCount= todoList.filter(function(item){
+    return item.isChecked == false;
+ }).map(function({title, isChecked,user}){
+     return {title, isChecked, user};
+ });
+
+
+  useFocusEffect(() => {
     getToDo();
-  },[])
+  })
+
+
 
   return (
     <SafeAreaView style={styles.container}>
 
       <View style={styles.header}>
-        <Text style={styles.heading}>To-do List : {todoList.length} </Text>
+        <Text style={styles.heading}>To Do List: {falseCount.length} </Text>
 
         <Pressable onPress={deleteTodoList}>
           <AntDesign name="delete" size={28} color="black" />

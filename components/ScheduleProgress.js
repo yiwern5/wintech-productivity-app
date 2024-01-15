@@ -5,26 +5,12 @@ import {useState,useEffect} from 'react';
 import {db} from '../firebase'
 import {collection, addDoc,getDocs,deleteDoc,doc,query,where} from 'firebase/firestore'
 import { useUser } from '@clerk/clerk-expo';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function App() {
-  const [title,setTitle] = useState("");
   const [todoList,settodoList] = useState([]);
   const {user} = useUser();
   const email = user.primaryEmailAddress.emailAddress;
-
-  const addToDo = async() => {
-    try {
-      const docRef = await addDoc(collection(db, "title"), {
-        title: title,
-        isChecked: false,
-        user: email,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-    getToDo();
-  }
 
   const getToDo = async() => {
     const querySnapshot = await getDocs(query(collection(db, "title"), where("user", "==", email)));
@@ -32,8 +18,6 @@ export default function App() {
     settodoList(
       querySnapshot.docs.map((doc) => ({...doc.data(),id:doc.id}))
       );
-    
-    console.log(todoList);
   };
 
   const deleteTodoList = async() => {
@@ -43,13 +27,19 @@ export default function App() {
     getToDo();
   };
 
-  useEffect(() => {
+  falseCount= todoList.filter(function(item){
+    return item.isChecked == false;
+ }).map(function({title, isChecked,user}){
+     return {title, isChecked, user};
+ });
+
+  useFocusEffect(() => {
     getToDo();
-  },[])
+  })
 
   return (
     <View style={styles.container}>
-        <Text style={styles.number}>{todoList.length}</Text>
+        <Text style={styles.number}>{falseCount.length}</Text>
         <Text style={styles.left}>tasks left</Text>      
         <Text style={styles.title}>To-do List</Text>
     </View>
