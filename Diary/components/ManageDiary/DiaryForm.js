@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Alert, StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { Entypo } from '@expo/vector-icons';
 import { GlobalStyles } from "../../constants/styles";
@@ -44,18 +44,31 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     });
   }
 
-  function imageChangedHandler(updatedImage) {
-    setImage(updatedImage);
-    setImageIsValid(true);
-  }
 
+  function imageChangedHandler(updatedImage) {
+    if (updatedImage) {
+      // Check if the updated image is different from the default image
+      const isImageDifferent = !defaultValues || updatedImage.uri !== defaultValues.image?.uri;
+  
+      if (isImageDifferent) {
+        setImage(updatedImage);
+      }
+  
+      setImageIsValid(true);
+    } else {
+      // If the updated image is null, keep showing the default image
+      setImage(defaultValues ? defaultValues.image : null);
+      setImageIsValid(true);
+    }
+  }
+    
   function submitHandler() {
     const diaryData = {
       title: inputs.title.value,
       date: new Date(inputs.date.value),
       entry: inputs.entry.value,
       mood: inputs.mood.value,
-      image: image ? image.uri : null,
+      image: image ? image.uri : defaultValues.image,
       email: user.primaryEmailAddress.emailAddress,
     };
 
@@ -63,7 +76,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     const dateIsValid = diaryData.date.toString() !== "Invalid Date";
     const entryIsValid = diaryData.entry.trim().length > 0;
     const moodIsValid = diaryData.mood.trim().length == 2;
-    const imageIsValid = diaryData.image !== null && diaryData.image !== undefined;
+    const imageIsValid = diaryData.image !== null && diaryData.image !== undefined || defaultValues.image !== null;
 
     if (!titleIsValid || !dateIsValid || !entryIsValid || !imageIsValid || !moodIsValid) {
       setInputs((curInputs) => {
@@ -106,7 +119,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     !inputs.title.isValid ||
     !inputs.date.isValid ||
     !inputs.entry.isValid ||
-    !imageIsValid ||
+    (image === null && !imageIsValid) ||
     !inputs.mood.isValid;
 
   return (
