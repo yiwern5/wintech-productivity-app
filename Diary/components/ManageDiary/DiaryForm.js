@@ -14,7 +14,7 @@ import { useUser } from "@clerk/clerk-expo";
 
 function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
   const { user } = useUser();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(defaultValues? defaultValues.image : null);
   const [imageIsValid, setImageIsValid] = useState(true);
   const [inputs, setInputs] = useState({
     title: {
@@ -159,7 +159,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
       { image ? (
           <TouchableOpacity onPress={() => pickImage(imageChangedHandler)}>
             <View style={{overflow:'hidden'}}>
-              <Image source={{ uri: image.uri }} style={styles.imagecontainer}/>
+              <Image source={{ uri: image.uri || image}} style={styles.imagecontainer}/>
             </View>
           </TouchableOpacity>
         ) : (
