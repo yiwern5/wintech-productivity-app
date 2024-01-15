@@ -27,13 +27,19 @@ export default function App() {
     getToDo();
   };
 
+  falseCount= todoList.filter(function(item){
+    return item.isChecked == false;
+ }).map(function({title, isChecked,user}){
+     return {title, isChecked, user};
+ });
+
   useFocusEffect(() => {
     getToDo();
   })
 
   return (
     <View style={styles.container}>
-        <Text style={styles.number}>{todoList.length}</Text>
+        <Text style={styles.number}>{falseCount.length}</Text>
         <Text style={styles.left}>tasks left</Text>      
         <Text style={styles.title}>To-do List</Text>
     </View>
