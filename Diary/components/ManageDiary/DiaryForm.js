@@ -58,7 +58,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     } else {
       // If the updated image is null, keep showing the default image
       setImage(defaultValues ? defaultValues.image : null);
-      setImageIsValid(true);
+      setImageIsValid(defaultValues ? defaultValues.imageIsValid : true);
     }
   }
     
@@ -68,7 +68,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
       date: new Date(inputs.date.value),
       entry: inputs.entry.value,
       mood: inputs.mood.value,
-      image: image ? image.uri : defaultValues.image,
+      image: image ? image.uri : (defaultValues && defaultValues.image ? defaultValues.image.uri : null),
       email: user.primaryEmailAddress.emailAddress,
     };
 
@@ -76,7 +76,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     const dateIsValid = diaryData.date.toString() !== "Invalid Date";
     const entryIsValid = diaryData.entry.trim().length > 0;
     const moodIsValid = diaryData.mood.trim().length == 2;
-    const imageIsValid = diaryData.image !== null && diaryData.image !== undefined || defaultValues.image !== null;
+    const imageIsValid = diaryData.image !== null && diaryData.image !== undefined;
 
     if (!titleIsValid || !dateIsValid || !entryIsValid || !imageIsValid || !moodIsValid) {
       setInputs((curInputs) => {
@@ -100,7 +100,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     onSubmit(diaryData);
   }
 
-  const pickImage = async (onImageChanged) => {
+  const pickImage = async () => {
     let response = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -109,7 +109,6 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     });
     if (!response.canceled) {
       const source = response.assets[0];
-      onImageChanged(source);
       setImage(source);
       setImageIsValid(true);
     }
@@ -119,7 +118,7 @@ function DiaryForm({ submitButtonLabel, onCancel, onSubmit, defaultValues }) {
     !inputs.title.isValid ||
     !inputs.date.isValid ||
     !inputs.entry.isValid ||
-    (image === null && !imageIsValid) ||
+    (!imageIsValid && (!defaultValues || !defaultValues.imageIsValid)) ||
     !inputs.mood.isValid;
 
   return (
