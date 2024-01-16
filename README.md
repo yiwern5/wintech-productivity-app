@@ -1,5 +1,7 @@
 # Lifesync
 
+![cover](./LifesyncCover.png)
+
 ---
 
 ## Description
