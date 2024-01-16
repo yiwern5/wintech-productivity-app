@@ -9,11 +9,13 @@ import Challenge from "./screens/Challenge";
 import { AntDesign } from '@expo/vector-icons'
 import Tabs from "./navigation/Tabs";
 import ExpensesContextProvider from "./Expenses/store/expenses-context";
+import DiaryContextProvider from "./Diary/store/diary-context";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
+    <DiaryContextProvider>
     <ExpensesContextProvider>
     <ClerkProvider publishableKey={'pk_test_c3R1bm5pbmctc3F1aWQtMTcuY2xlcmsuYWNjb3VudHMuZGV2JA'}>
       <SignedIn>
@@ -79,6 +81,8 @@ export default function App() {
       </SignedOut>
     </ClerkProvider>
     </ExpensesContextProvider>
+    </DiaryContextProvider>
+
   );
 }
   
