@@ -14,7 +14,6 @@ In the fast-paced modern world, individuals find it challenging to prioritise th
 - 📕 **Diary**: A personal space to express your thoughts, experiences and reflections for the day through text entries by writing, and visual entries by inserting pictures. 
 - 🥗 **Calories Tracking**: Take/upload photos of your meals to LifeSync to track calories via our meal recognition feature.
 - 💰 **Expense Tracker**: Simplify expense management by tracking, editing, adding, and deleting expenses with ease. Review all recorded expenses or effortlessly focus on the last 7 days for a quick financial overview.
-- 🏅 **Habit Tracker**: Track your progress and earn badges when you maintain the streaks for 7, 14, 28 consecutive days.
 
 ## Language and Tools Used
 <p align="center"> 
